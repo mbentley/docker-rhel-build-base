@@ -1,4 +1,4 @@
-.PHONY: all build build-context
+.PHONY: all help build-context build-image build
 
 all: help
 

@@ -1,7 +1,6 @@
 .PHONY: all build build-context
 
-all:	## Creates build context and Docker image
-all: build
+all: help
 
 help:	## Show this help
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'

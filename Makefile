@@ -12,8 +12,9 @@ build-context:
 	cp -r /etc/pki .
 	cp -r /etc/rhsm .
 	cp -r /var/lib/rpm .
-	-rm yum.repos.d/docker-*.repo
-	-rm yum.repos.d/packages.docker.com_*.repo
+	# Remove Docker repos, if found
+	rm -f yum.repos.d/docker-*.repo
+	rm -f yum.repos.d/packages.docker.com_*.repo
 
 build-image:
 	# Build Docker image

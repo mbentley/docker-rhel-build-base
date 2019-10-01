@@ -1,24 +1,16 @@
 .PHONY: all help build-context build-image build
 
+RHEL_VER =$(shell ./get_rhel_version.sh)
+
 all: help
 
-help:	## Show this help
+help:   ## Show this help
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
-
-build-context:
-	# Create build context
-	cp -r /etc/yum.repos.d .
-	cp -r /etc/pki .
-	cp -r /etc/rhsm .
-	cp -r /var/lib/rpm .
-	# Remove Docker repos, if found
-	rm -f yum.repos.d/docker-*.repo
-	rm -f yum.repos.d/packages.docker.com_*.repo
 
 build-image:
 	# Build Docker image
-	docker build -t rhel:7.3-entitled .
+	tar cf - /etc/yum.repos.d /etc/pki /etc/rhsm Dockerfile | docker build --build-arg RHEL_VER=$(RHEL_VER) -t rhel:$(RHEL_VER)-entitled -
 
-build:	## Create build context and build a base image with the subscription injected
-build: build-context build-image
+build:  ## Create build context and build a base image with the subscription injected
+build: build-image
 
